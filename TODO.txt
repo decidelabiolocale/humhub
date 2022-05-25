@@ -1,0 +1,26 @@
+### Versionalisation + documention du projet .
+
+
+
+
+
+### Décomposition des entités de la V1 vers des Searchable pour la V2
+
+# SearchableMap
+
+
+Identité
+Adresse découper comme pour le User humhub
+email
+téléphone
+
+created/updated_at
+
+commentaire/description
+
+
+# SearchableProductMap 
+
+Liste de Produits
+
+# Passage entre les recherche en indicant sa position 
