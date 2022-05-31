@@ -1,2 +1,2 @@
-* * * * * /usr/bin/php /app/WebHumhub/protected/yii queue/run >/dev/null 2>&1 
-* * * * * /usr/bin/php /app/WebHumhub/protected/yii cron/run >/dev/null 2>&1 
+* * * * * /usr/bin/php /app/Web/protected/yii queue/run >/dev/null 2>&1 
+* * * * * /usr/bin/php /app/Web/protected/yii cron/run >/dev/null 2>&1 

@@ -1,7 +1,7 @@
 FROM yiisoftware/yii2-php:7.4-apache
 
 WORKDIR /app
-COPY . /app/WebHumhub
+COPY . /app/Web
 
 RUN apt-get -y update
 RUN apt-get install -y pv
