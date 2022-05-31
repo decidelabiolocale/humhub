@@ -1,5 +1,5 @@
 #!/bin/bash
 
-php /app/Web/protected/yii cron/run
+php /app/WebHumhub/protected/yii cron/run
 
 echo "install complete"
