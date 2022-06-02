@@ -8,7 +8,7 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "produit".
  *
  * @property integer $pk_produit
  * @property string $nom
@@ -48,6 +48,13 @@ class Produit implements Searchable {
 	 * @return mixed
 	 */
 	function getSearchAttributes() {
+        $attributes = [
+            'nom' => $this->nom,
+            'categorie' => $this->categorie,
+            'description' => $this->description
+        ];
+
+        return $attributes;
 	}
 }
 ?>
