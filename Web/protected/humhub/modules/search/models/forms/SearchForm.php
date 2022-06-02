@@ -6,6 +6,8 @@ use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\search\engine\Search;
 use humhub\modules\user\models\Produit;
+use humhub\modules\user\models\LieuxDeVente;
+use humhub\modules\user\models\Producteur;
 use yii\base\Model;
 use Yii;
 
@@ -22,6 +24,8 @@ class SearchForm extends Model
     const SCOPE_SPACE = 'space';
     const SCOPE_CONTENT = 'content';
     const SCOPE_PRODUIT = 'produit';
+    const SCOPE_PRODUCTEUR = 'producteur';
+    const SCOPE_LIEUX_DE_VENTE = 'lieux_de_vente';
     const SCOPE_ALL_MAP = 'all_map';
     public $keyword = '';
     public $scope = '';
@@ -62,6 +66,12 @@ class SearchForm extends Model
         // TODO: Recherches Cetcal
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => Produit::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => Produit::class])) : [];
         $totals[self::SCOPE_PRODUIT] = $searchResultSetCount->total;
+
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => Producteur::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => Producteur::class])) : [];
+        $totals[self::SCOPE_PRODUCTEUR] = $searchResultSetCount->total;
+
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) : [];
+        $totals[self::SCOPE_LIEUX_DE_VENTE] = $searchResultSetCount->total;
 
         $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_PRODUIT];
 

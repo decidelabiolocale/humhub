@@ -112,7 +112,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?= Yii::t('SearchModule.base', '<strong>Search </strong> results') ?>
-                </div>
+                    </div>
                     <div class="list-group">
                         <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ALL]); ?>'
                            class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ALL) ? ' active' : '' ?>">
@@ -156,7 +156,27 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                             </div>
                         </a>
                     </div>
-                </div>
+                    <div class="panel-heading">
+                        Résultat sur la map
+                    </div>
+                    <div class="list-group">
+                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_PRODUCTEUR]); ?>'
+                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_PRODUCTEUR) ? ' active' : '' ?>">
+                            <div>
+                                <div class="edit_group ">Producteurs
+                                    (<?= $totals[SearchForm::SCOPE_PRODUCTEUR] ?>)
+                                </div>
+                            </div>
+                    </a>
+                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_LIEUX_DE_VENTE]); ?>'
+                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_LIEUX_DE_VENTE) ? ' active' : '' ?>">
+                            <div>
+                                <div class="edit_group ">Lieux de vente
+                                    (<?= $totals[SearchForm::SCOPE_LIEUX_DE_VENTE] ?>)
+                                </div>
+                            </div>
+                    </a>
+                    </div>
             </div>
 
             <div class="col-md-10">
