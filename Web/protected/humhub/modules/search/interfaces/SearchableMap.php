@@ -2,7 +2,7 @@
 
 namespace humhub\modules\search\interfaces;
 
-interface SearchableMap extends Searchable
+interface SearchableMap
 {
     public function getResultByDistance($distance, $resultTab);
 }

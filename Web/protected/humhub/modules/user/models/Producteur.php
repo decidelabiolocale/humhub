@@ -2,14 +2,13 @@
 
 namespace humhub\modules\space\models;
 
-use humhub\modules\search\interfaces\SearchableMap;
-
-class Producteur implements SearchableMap
+use humhub\modules\search\behaviors\Searchable;
+/**
+ * This is the model class for table "producteur".
+* @property AdresseCet $adresse
+**/
+class Producteur implements Searchable
 {
-    public function getResultByDistance($distance, $resultTab)
-    {
-        return $resultTab;
-    }
 	/**
 	 *
 	 * @return mixed
@@ -22,5 +21,11 @@ class Producteur implements SearchableMap
 	 * @return mixed
 	 */
 	function getSearchAttributes() {
+        $attributes = [
+            'nom' => $this->adresse->name,
+        ];
+
+        return $attributes;
+
 	}
 }
