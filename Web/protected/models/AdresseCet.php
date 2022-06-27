@@ -60,20 +60,14 @@ class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap
             'pk' => 'Pk',
         ];
     }
-	/**
-	 *
-	 * @param mixed $distance
-	 * @param mixed $resultTab
-	 *
-	 * @return mixed
-	 */
-	function getResultByDistance($distance, $resultTab) {
-	}
-
-    function findall() {
-        $db = $this->getDb();
-        $query = $db->prepare('SELECT * FROM adresse_cet');
-        $query->execute();
-        return $query->fetchAll();
+    /**
+     *
+     * @param mixed $distance
+     * @param mixed $resultTab
+     *
+     * @return mixed
+     */
+    function getResultByDistance($distance, $resultTab)
+    {
     }
 }
