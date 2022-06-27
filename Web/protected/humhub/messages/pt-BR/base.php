@@ -26,7 +26,7 @@ return [
     'Content Addon source must be instance of HActiveRecordContent or HActiveRecordContentAddon!' => 'Conteúdo fonte Addon deve ser instância de HActiveRecordContent ou HActiveRecordContentAddon!',
     'Copy to clipboard' => 'Copiar para a memória',
     'Could not find content of addon!' => 'Não foi possível encontrar o conteúdo do addon!',
-    'Could not find requested page.' => 'Não foi possível encontrar a página solicitada.',
+    'Could not  requested page.' => 'Não foi possível encontrar a página solicitada.',
     'Default' => 'Padrão',
     'Delete' => 'Deletar',
     'Deny' => 'Recusar',
