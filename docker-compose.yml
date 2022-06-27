@@ -19,6 +19,7 @@ services:
     # Use Backup 
       - ./mysql/mysql-dump/humhub_dump:/docker-entrypoint-initdb.d
       - ./mysql/mysql-data/humhub-data:/var/lib/mysql
+      - ./mysql/mysql-data/import-csv:/var/lib/mysql-files
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user

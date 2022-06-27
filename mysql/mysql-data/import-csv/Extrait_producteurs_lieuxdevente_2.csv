@@ -1,0 +1,18 @@
+name,type,street,zip,city,country,state,latitude,longitude,pk
+SCOP SARL BRASSERIE LA NOVE,producteur,129 Avenue Aristide BRIAND ,24100,BERGERAC,France,,0.463134,44.848852,2
+Scea des Vergers de Gaillard et Beurret,producteur,1 Route de Beurret Beurret,33570,Les Artigues de Lussac,France,,-0.153281,44.97181,3
+Les Saveurs du Bois du Roc,producteur, route d'eymet La Félière,24240,Monestier,France,,0.28824,44.792,5
+Ecolieu de Cablanc,producteur,  Cablanc,24240,Saussignac,France,,0.285537,44.782713,6
+Le Potager du Dropt,producteur,4 ROUTE NATIONALE 113 LA TUILERIE,33190,CASSEUIL,France,,-0.090975,44.583919,7
+CHATEAU MOULIN DE PEYRONIN,producteur,  Peyronin,33350,pujols,France,,-0.01705,44.805583,8
+Château Fourton La Garenne,producteur,5 Hourton ,33750,Nerigean,France,,-0.302547,44.846208,9
+Ferme de Durege,producteur,7  Durège,33890,PESSAC SUR DORDOGNE,France,,0.080126,44.810775,10
+Chateau du Tertre Bel AIr,producteur,1  Grange,33350,Les Salles de Castillon,France,,-0.009207,44.922889,11
+Petit Marché,lieudevente,Ferme des Gardes Route de la garde,24230,Saint Antoine de Breuilh,France,,0.125654,44.834482,3
+Le panier foyen,lieudevente,23 avenue Paul Bert,33230,Sainte Foy la Grande,France,,0.222078,44.838746,4
+Les bouyricous de Pellegrue,lieudevente,7 Place du 8 Mai 1945,33790,Pellegrue,France,,0.075614,44.743735,5
+Les jardins du cubzaguais ,lieudevente,Passage des Associations,33240,Saint-André-de-Cubzac,France,,-0.444549,44.99416,6
+Tresses à table,lieudevente,25 Le Bourg,33370,Tresses,France,,-0.464039,44.847326,7
+Le pompin ambour,lieudevente,,33370,Pompignac,France,,-0.43694,44.85111,9
+Les paniers Bio des deux rives,lieudevente,,24500,Eymet,France,,0.39833,44.6675,10
+Le panier Loubésien ,lieudevente,41 Rue du Stade,33450,Saint-Loubès,France,,-0.427741,44.914316,11
