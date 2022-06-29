@@ -18,6 +18,8 @@ use humhub\modules\search\interfaces\SearchableMap;
  * @property string|null $latitude
  * @property string|null $longitude
  * @property int|null $pk
+ * @property int $id
+ * @property boolean $isActive
  */
 class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap
 {
