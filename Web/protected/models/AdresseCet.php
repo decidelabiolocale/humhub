@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use humhub\modules\search\interfaces\SearchableMap;
+use humhub\modules\search\interfaces\Searchable;
 
 /**
  * This is the model class for table "adresse_cet".
@@ -21,7 +22,7 @@ use humhub\modules\search\interfaces\SearchableMap;
  * @property int $id
  * @property boolean $isActive
  */
-class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap
+class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap, Searchable
 {
     /**
      * {@inheritdoc}
@@ -72,4 +73,24 @@ class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap
     function getResultByDistance($distance, $resultTab)
     {
     }
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getWallOut() {
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getSearchAttributes() {
+        $attributes = [
+            'name' => $this->name,
+            'type' => $this->type,
+            'city' => $this->city
+        ];
+
+        return $attributes;
+	}
 }

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use humhub\modules\search\interfaces\Searchable;
 
 /**
  * This is the model class for table "produit".
@@ -11,7 +12,7 @@ use Yii;
  * @property string|null $nom
  * @property string|null $categorie
  */
-class Produit extends \yii\db\ActiveRecord
+class Produit extends \yii\db\ActiveRecord implements Searchable
 {
     /**
      * {@inheritdoc}
@@ -45,4 +46,23 @@ class Produit extends \yii\db\ActiveRecord
             'categorie' => 'Categorie',
         ];
     }
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getWallOut() {
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getSearchAttributes() {
+        $attributes = [
+            'nom' => $this->nom,
+            'categorie' => $this->categorie
+        ];
+
+        return $attributes;
+	}
 }
