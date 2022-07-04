@@ -63,6 +63,9 @@ class AdresseCet extends \yii\db\ActiveRecord implements SearchableMap, Searchab
             'pk' => 'Pk',
         ];
     }
+
+    // This is required to display the search result
+    public $wallEntryClass = "humhub\modules\adresse_cet\widgets\WallEntry";
     /**
      *
      * @param mixed $distance

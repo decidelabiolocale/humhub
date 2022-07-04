@@ -84,7 +84,9 @@ class SearchController extends Controller
             $options['model'] = Space::class;
         } elseif ($model->scope == SearchForm::SCOPE_USER) {
             $options['model'] = User::class;
-        } else {
+        } elseif ($model->scope == SearchForm::SCOPE_ADRESSE_CET) {
+            $options['model'] = AdresseCet::class;
+        }else {
             $model->scope = SearchForm::SCOPE_ALL;
         }
 

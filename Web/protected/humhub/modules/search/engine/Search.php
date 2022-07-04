@@ -18,6 +18,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\search\events\SearchAttributesEvent;
+use app\models\AdresseCet;
 
 /**
  * Description of HSearchComponent
@@ -31,6 +32,7 @@ abstract class Search extends Component
     const EVENT_SEARCH_ATTRIBUTES = 'search_attributes';
     const EVENT_ON_REBUILD = 'onRebuild';
     const DOCUMENT_TYPE_USER = 'user';
+    const DOCUMENT_TYPE_ADRESSE_CET = 'adresse_cet';
     const DOCUMENT_TYPE_SPACE = 'space';
     const DOCUMENT_TYPE_CONTENT = 'content';
     const DOCUMENT_TYPE_OTHER = 'other';
@@ -104,7 +106,7 @@ abstract class Search extends Component
      */
     public function optimize()
     {
-        
+
     }
 
     protected function getMetaInfoArray(Searchable $obj)
@@ -152,6 +154,8 @@ abstract class Search extends Component
             return self::DOCUMENT_TYPE_USER;
         } elseif ($obj instanceof ContentActiveRecord) {
             return self::DOCUMENT_TYPE_CONTENT;
+        } elseif ($obj instanceof AdresseCet) {
+            return self::DOCUMENT_TYPE_ADRESSE_CET;
         } else {
             return self::DOCUMENT_TYPE_OTHER;
         }
@@ -180,8 +184,8 @@ abstract class Search extends Component
 
     /**
      * Returns additional search attributes for the given object.
-     * This contains a list of comments, files and other content addons. 
-     * 
+     * This contains a list of comments, files and other content addons.
+     *
      * @param Searchable $object
      * @return array the additional search attributes
      */

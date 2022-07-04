@@ -26,7 +26,7 @@ class SearchForm extends Model
     const SCOPE_PRODUIT = 'produit';
     const SCOPE_PRODUCTEUR = 'producteur';
     const SCOPE_LIEUX_DE_VENTE = 'lieux_de_vente';
-    const SCOPE_ALL_MAP = 'all_map';
+    const SCOPE_ADRESSE_CET = 'adresse_cet';
     public $keyword = '';
     public $scope = '';
     public $page = 1;
@@ -73,7 +73,10 @@ class SearchForm extends Model
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) : [];
         $totals[self::SCOPE_LIEUX_DE_VENTE] = $searchResultSetCount->total;
 
-        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_PRODUIT];
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => AdresseCet::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => AdresseCet::class])) : [];
+        $totals[self::SCOPE_ADRESSE_CET] = $searchResultSetCount->total;
+
+        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_PRODUIT] + $totals[self::SCOPE_ADRESSE_CET];
 
         return $totals;
     }

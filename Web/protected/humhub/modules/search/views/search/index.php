@@ -176,40 +176,49 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                                 </div>
                             </div>
                     </a>
+                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ADRESSE_CET]); ?>'
+                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ADRESSE_CET) ? ' active' : '' ?>">
+                            <div>
+                                <div class="edit_group "> AdresseCet
+                                    (<?= $totals[SearchForm::SCOPE_ADRESSE_CET] ?>)
+                                </div>
+                            </div>
+                        </a>
                     </div>
             </div>
 
-            <div class="col-md-10">
 
-                <div class="searchResults">
+        </div>
+        <div class="col-md-10">
 
-                    <?php if (count($results) > 0): ?>
-                        <?php foreach ($results as $result): ?>
-                            <?php try {  ?>
-                                <?php if ($result instanceof ContentActiveRecord) : ?>
-                                    <?= StreamEntryWidget::renderStreamEntry($result,
-                                        (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH))?>
-                                <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
-                                    <?= $result->getWallOut() ?>
-                                <?php else: ?>
-                                    No Output for Class <?= get_class($result); ?>
-                                <?php endif; ?>
-                            <?php } catch(\Throwable $e) {Yii::error($e);} ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
+<div class="searchResults">
 
-                <div class="pagination-container"><?= LinkPager::widget(['pagination' => $pagination]) ?></div>
-                <br><br>
+    <?php if (count($results) > 0): ?>
+        <?php foreach ($results as $result): ?>
+            <?php try {  ?>
+                <?php if ($result instanceof ContentActiveRecord) : ?>
+                    <?= StreamEntryWidget::renderStreamEntry($result,
+                        (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH))?>
+                <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
+                    <?= $result->getWallOut() ?>
+                <?php else: ?>
+                    No Output for Class <?= get_class($result); ?>
+                <?php endif; ?>
+            <?php } catch(\Throwable $e) {Yii::error($e);} ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
             </div>
         </div>
     <?php endif; ?>
+</div>
+
+<div class="pagination-container"><?= LinkPager::widget(['pagination' => $pagination]) ?></div>
+<br><br>
+</div>
+        <?php endif; ?>
 
     <?= FooterMenu::widget(['location' => FooterMenu::LOCATION_FULL_PAGE]); ?>
 </div>
