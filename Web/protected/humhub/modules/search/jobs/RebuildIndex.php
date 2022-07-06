@@ -40,6 +40,7 @@ class RebuildIndex extends ActiveJob implements ExclusiveJobInterface, Retryable
      */
     public function run()
     {
+        print 'rebuild index started';
         Yii::$app->search->rebuild();
     }
 

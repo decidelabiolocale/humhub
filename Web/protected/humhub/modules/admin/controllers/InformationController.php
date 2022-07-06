@@ -83,8 +83,10 @@ class InformationController extends Controller
         $databaseInfo = new DatabaseInfo(Yii::$app->db->dsn);
 
         $rebuildSearchJob = new RebuildIndex();
+        // passed print "rebuildSearchJob initialized\n";
         if (Yii::$app->request->isPost && Yii::$app->request->get('rebuildSearch') == 1) {
             Yii::$app->queue->push($rebuildSearchJob);
+            // passed print 'rebuildSearch job pushed' . "\n";
         }
 
         return $this->render(

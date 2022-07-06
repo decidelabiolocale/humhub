@@ -34,6 +34,7 @@ class Events extends BaseObject
     public static function onSearchRebuild($event)
     {
         foreach (Space::find()->each() as $space) {
+            print 'Rebuild space: ' . $space->name . "\n";
             Yii::$app->search->add($space);
         }
     }

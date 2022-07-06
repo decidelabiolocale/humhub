@@ -12,7 +12,7 @@ use Yii;
 use yii\helpers\Url;
 use humhub\components\Widget;
 use humhub\modules\cetcalModule\models\admin\EditForm;
-use app\models\AdresseCet;
+use humhub\modules\adresse_cet\models\AdresseCet;
 
 class MapView extends Widget
 {

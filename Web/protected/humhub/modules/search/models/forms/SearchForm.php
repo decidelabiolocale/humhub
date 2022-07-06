@@ -8,6 +8,7 @@ use humhub\modules\search\engine\Search;
 use humhub\modules\user\models\Produit;
 use humhub\modules\user\models\LieuxDeVente;
 use humhub\modules\user\models\Producteur;
+use humhub\modules\adresse_cet\models\AdresseCet;
 use yii\base\Model;
 use Yii;
 

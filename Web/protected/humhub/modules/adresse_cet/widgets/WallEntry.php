@@ -22,7 +22,7 @@ class WallEntry extends WallStreamEntryWidget
     protected function renderContent()
     {
         return $this->render('wallEntry', [
-            'cet_adresse' => $this->model,
+            'adresse_cet' => $this->model,
             'renderOptions' => $this->renderOptions
         ]);
     }

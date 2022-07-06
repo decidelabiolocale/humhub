@@ -16,6 +16,7 @@ use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\search\models\forms\SearchForm;
 use humhub\modules\search\engine\Search;
+use humhub\modules\adresse_cet\models\AdresseCet;
 
 /**
  * Search Controller provides search functions inside the application.

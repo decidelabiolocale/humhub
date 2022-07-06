@@ -1,6 +1,10 @@
 <?php
+
+namespace humhub\modules\adresse_cet;
+
 use yii\base\BaseObject;
-use app\models\AdresseCet;
+use humhub\modules\adresse_cet\models\AdresseCet;
+use Yii;
 
 
 class Events extends BaseObject
@@ -9,8 +13,8 @@ class Events extends BaseObject
     {
         print 'onSearchRebuild adresse cet' . "\n";
         foreach (AdresseCet::find()->each() as $adresseCet) {
-            print $adresseCet->name . "\n";
             Yii::$app->search->add($adresseCet);
+            print $adresseCet->name . "added \n";
         }
     }
 

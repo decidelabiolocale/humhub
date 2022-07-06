@@ -13,6 +13,7 @@ use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\stream\actions\Stream;
 use humhub\widgets\LinkPager;
+use humhub\modules\search\interfaces\Searchable;
 
 humhub\modules\stream\assets\StreamAsset::register($this);
 
@@ -200,6 +201,8 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                     <?= StreamEntryWidget::renderStreamEntry($result,
                         (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH))?>
                 <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
+                    <?= $result->getWallOut() ?>
+                <?php elseif ($result instanceof Searchable) : ?>
                     <?= $result->getWallOut() ?>
                 <?php else: ?>
                     No Output for Class <?= get_class($result); ?>
