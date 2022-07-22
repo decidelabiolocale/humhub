@@ -52,7 +52,7 @@ class Module extends \humhub\modules\content\components\ContentContainerModule
     */
     public function getContentContainerName(ContentContainerActiveRecord $container)
     {
-        return Yii::t('producteursImportModule.base', 'producteursImporttest');
+        return 'producteursImporttest';
     }
 
     /**
@@ -60,6 +60,6 @@ class Module extends \humhub\modules\content\components\ContentContainerModule
     */
     public function getContentContainerDescription(ContentContainerActiveRecord $container)
     {
-        return Yii::t('producteursImportModule.base', 'Short description of the modules purpose.');
+        return 'Short description of the modules purpose.';
     }
 }
