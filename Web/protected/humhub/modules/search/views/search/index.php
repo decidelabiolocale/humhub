@@ -148,11 +148,11 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_PRODUIT]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_PRODUIT) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_PRODUIT]); ?>'
+                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_PRODUIT) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group ">Produits
-                                    (<?= $totals[SearchForm::SCOPE_PRODUIT] ?>)
+                                    (<?= $totals[SearchForm::SCOPE_CET_PRODUIT] ?>)
                                 </div>
                             </div>
                         </a>
@@ -161,27 +161,11 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                         Résultat sur la map
                     </div>
                     <div class="list-group">
-                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_PRODUCTEUR]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_PRODUCTEUR) ? ' active' : '' ?>">
+                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_ENTITE]); ?>'
+                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_ENTITE) ? ' active' : '' ?>">
                             <div>
-                                <div class="edit_group ">Producteurs
-                                    (<?= $totals[SearchForm::SCOPE_PRODUCTEUR] ?>)
-                                </div>
-                            </div>
-                    </a>
-                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_LIEUX_DE_VENTE]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_LIEUX_DE_VENTE) ? ' active' : '' ?>">
-                            <div>
-                                <div class="edit_group ">Lieux de vente
-                                    (<?= $totals[SearchForm::SCOPE_LIEUX_DE_VENTE] ?>)
-                                </div>
-                            </div>
-                    </a>
-                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ADRESSE_CET]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ADRESSE_CET) ? ' active' : '' ?>">
-                            <div>
-                                <div class="edit_group "> AdresseCet
-                                    (<?= $totals[SearchForm::SCOPE_ADRESSE_CET] ?>)
+                                <div class="edit_group "> CetEntite
+                                    (<?= $totals[SearchForm::SCOPE_CET_ENTITE] ?>)
                                 </div>
                             </div>
                         </a>
