@@ -3,6 +3,9 @@
 namespace app\humhub\modules\cet_produit\models;
 
 use Yii;
+use humhub\modules\search\interfaces\Searchable;
+use humhub\modules\cet_produit\widgets\Wall;
+use app\humhub\modules\cet_entite\models\CetEntite;
 
 /**
  * This is the model class for table "cet_produit".
@@ -14,7 +17,7 @@ use Yii;
  * @property CetJoinProduit[] $cetJoinProduits
  * @property CetEntite[] $fkAdresseCets
  */
-class CetProduit extends \yii\db\ActiveRecord
+class CetProduit extends \yii\db\ActiveRecord implements Searchable
 {
     /**
      * {@inheritdoc}
@@ -68,4 +71,24 @@ class CetProduit extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CetEntite::className(), ['id' => 'Fk_adresse_cet'])->viaTable('cet_join_produit', ['Fk_produit' => 'id']);
     }
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getWallOut() {
+        return Wall::widget(['cet_produit' => $this]);
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	function getSearchAttributes() {
+        $attributes = [
+            'name' => $this->nom,
+            'categorie' => $this->categorie
+        ];
+
+        return $attributes;
+	}
 }

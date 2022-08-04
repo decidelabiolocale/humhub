@@ -11,7 +11,7 @@ class Wall extends Widget
 
     public function run()
     {
-        return $this->render('cetEntiteWall', ['cet_entite' => $this->adresse_cet]);
+        return $this->render('cetEntiteWall', ['cet_entite' => $this->cet_entite]);
     }
 
 }

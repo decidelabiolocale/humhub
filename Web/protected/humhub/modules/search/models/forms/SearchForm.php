@@ -24,10 +24,8 @@ class SearchForm extends Model
     const SCOPE_USER = 'user';
     const SCOPE_SPACE = 'space';
     const SCOPE_CONTENT = 'content';
-    const SCOPE_PRODUIT = 'produit';
-    const SCOPE_PRODUCTEUR = 'producteur';
-    const SCOPE_LIEUX_DE_VENTE = 'lieux_de_vente';
-    const SCOPE_ADRESSE_CET = 'adresse_cet';
+    const SCOPE_CET_PRODUIT = 'cet_produit';
+    const SCOPE_CET_ENTITE = 'cet_entite';
     public $keyword = '';
     public $scope = '';
     public $page = 1;
@@ -65,19 +63,13 @@ class SearchForm extends Model
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['type' => Search::DOCUMENT_TYPE_CONTENT]));
         $totals[self::SCOPE_CONTENT] = $searchResultSetCount->total;
         // TODO: Recherches Cetcal
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => Produit::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => Produit::class])) : [];
-        $totals[self::SCOPE_PRODUIT] = $searchResultSetCount->total;
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetProduit::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => CetProduit::class])) : [];
+        $totals[self::SCOPE_CET_PRODUIT] = $searchResultSetCount->total;
 
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => Producteur::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => Producteur::class])) : [];
-        $totals[self::SCOPE_PRODUCTEUR] = $searchResultSetCount->total;
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class])) : [];
+        $totals[self::SCOPE_CET_ENTITE] = $searchResultSetCount->total;
 
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => LieuxDeVente::class])) : [];
-        $totals[self::SCOPE_LIEUX_DE_VENTE] = $searchResultSetCount->total;
-
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => AdresseCet::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => AdresseCet::class])) : [];
-        $totals[self::SCOPE_ADRESSE_CET] = $searchResultSetCount->total;
-
-        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_PRODUIT] + $totals[self::SCOPE_ADRESSE_CET];
+        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_CET_PRODUIT] + $totals[self::SCOPE_CET_ENTITE];
 
         return $totals;
     }

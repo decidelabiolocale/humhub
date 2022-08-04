@@ -19,6 +19,8 @@ use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\search\events\SearchAttributesEvent;
 use humhub\modules\adresse_cet\models\AdresseCet;
+use app\humhub\modules\cet_entite\models\CetEntite;
+use app\humhub\modules\cet_produit\models\CetProduit;
 
 /**
  * Description of HSearchComponent
@@ -32,7 +34,8 @@ abstract class Search extends Component
     const EVENT_SEARCH_ATTRIBUTES = 'search_attributes';
     const EVENT_ON_REBUILD = 'onRebuild';
     const DOCUMENT_TYPE_USER = 'user';
-    const DOCUMENT_TYPE_ADRESSE_CET = 'adresse_cet';
+    const DOCUMENT_TYPE_CET_ENTITE = 'cet_entite';
+    const DOCUMENT_TYPE_CET_PRODUIT = 'cet_produit';
     const DOCUMENT_TYPE_SPACE = 'space';
     const DOCUMENT_TYPE_CONTENT = 'content';
     const DOCUMENT_TYPE_OTHER = 'other';
@@ -158,8 +161,10 @@ abstract class Search extends Component
             return self::DOCUMENT_TYPE_USER;
         } elseif ($obj instanceof ContentActiveRecord) {
             return self::DOCUMENT_TYPE_CONTENT;
-        } elseif ($obj instanceof AdresseCet) {
-            return self::DOCUMENT_TYPE_ADRESSE_CET;
+        } elseif ($obj instanceof CetEntite) {
+            return self::DOCUMENT_TYPE_CET_ENTITE;
+        }elseif ($obj instanceof CetProduit) {
+            return self::DOCUMENT_TYPE_CET_PRODUIT;
         } else {
             return self::DOCUMENT_TYPE_OTHER;
         }
