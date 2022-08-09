@@ -12,7 +12,7 @@ use Yii;
 use yii\helpers\Url;
 use humhub\components\Widget;
 use humhub\modules\cetcalModule\models\admin\EditForm;
-use humhub\modules\adresse_cet\models\AdresseCet;
+//use humhub\modules\adresse_cet\models\AdresseCet;
 
 class MapView extends Widget
 {
@@ -61,7 +61,7 @@ class MapView extends Widget
 
     private function getAllAdresseCets()
     {
-
+/*
         $formatedAdresseCets = [];
         foreach (AdresseCet::findAll(['isActive' => 1]) as $adresseCet) {
 
@@ -78,11 +78,12 @@ class MapView extends Widget
                 'pk' => $adresseCet->pk,
             ];
         }
-        return $formatedAdresseCets;
+        return $formatedAdresseCets;*/
+        return [];
     }
 
-    private function getCoordinates(AdresseCet $adresseCet)
-    {
+    private function getCoordinates(/*AdresseCet $adresseCet*/)
+    {/*
         $coordinates = [];
         if ($adresseCet->latitude !== null && $adresseCet->longitude !== null) {
             $coordinates = [
@@ -92,6 +93,6 @@ class MapView extends Widget
         }
         return $coordinates;
 
-
+*/
     }
 }

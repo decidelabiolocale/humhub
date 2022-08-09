@@ -1,8 +1,13 @@
 <?php
 
-namespace app\humhub\modules\cet_producteur_lieu\models;
+namespace humhub\modules\cet_producteur_lieu\models;
 
 use Yii;
+use humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_type\models\CetType;
+use humhub\modules\cet_infos_producteur\models\CetInfosProducteur;
+
+
 
 /**
  * This is the model class for table "cet_producteur_lieu".

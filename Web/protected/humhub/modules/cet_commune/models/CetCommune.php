@@ -1,6 +1,6 @@
 <?php
 
-namespace app\humhub\modules\cet_commune\models;
+namespace humhub\modules\cet_commune\models;
 
 use Yii;
 

@@ -18,9 +18,8 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\search\events\SearchAttributesEvent;
-use humhub\modules\adresse_cet\models\AdresseCet;
-use app\humhub\modules\cet_entite\models\CetEntite;
-use app\humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_produit\models\CetProduit;
 
 /**
  * Description of HSearchComponent
@@ -98,13 +97,13 @@ abstract class Search extends Component
      */
     public function rebuild()
     {
-        print "rebuild search index: launch";
+        print "rebuild search index: launch \n";
         $this->flush();
-        print "search index deleted";
+        print "search index deleted \n";
         $this->trigger(self::EVENT_ON_REBUILD);
-        print "triggered event";
+        print "triggered event \n";
         $this->optimize();
-        print "search index optimized";
+        print "search index optimized \n";
     }
 
     /**

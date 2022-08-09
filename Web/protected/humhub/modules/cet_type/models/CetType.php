@@ -1,6 +1,9 @@
 <?php
 
-namespace app\humhub\modules\cet_type\models;
+namespace humhub\modules\cet_type\models;
+use humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_producteur_lieu\models\CetProducteurLieu;
+use humhub\modules\cet_join_type\models\CetJoinType;
 
 use Yii;
 

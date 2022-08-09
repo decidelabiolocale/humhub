@@ -5,10 +5,8 @@ namespace humhub\modules\search\models\forms;
 use humhub\modules\user\models\User;
 use humhub\modules\space\models\Space;
 use humhub\modules\search\engine\Search;
-use humhub\modules\user\models\Produit;
-use humhub\modules\user\models\LieuxDeVente;
-use humhub\modules\user\models\Producteur;
-use humhub\modules\adresse_cet\models\AdresseCet;
+use humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_produit\models\CetProduit;
 use yii\base\Model;
 use Yii;
 
@@ -63,10 +61,10 @@ class SearchForm extends Model
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['type' => Search::DOCUMENT_TYPE_CONTENT]));
         $totals[self::SCOPE_CONTENT] = $searchResultSetCount->total;
         // TODO: Recherches Cetcal
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetProduit::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => CetProduit::class])) : [];
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetProduit::class]));
         $totals[self::SCOPE_CET_PRODUIT] = $searchResultSetCount->total;
 
-        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class])) ? Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class])) : [];
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class]));
         $totals[self::SCOPE_CET_ENTITE] = $searchResultSetCount->total;
 
         $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_CET_PRODUIT] + $totals[self::SCOPE_CET_ENTITE];

@@ -4,7 +4,7 @@ namespace humhub\modules\cet_produit;
 
 use yii\base\BaseObject;
 use Yii;
-use app\humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\cet_produit\models\CetProduit;
 
 
 class Events extends BaseObject

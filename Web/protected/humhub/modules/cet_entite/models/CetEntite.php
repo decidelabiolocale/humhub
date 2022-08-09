@@ -1,14 +1,16 @@
 <?php
 
-namespace app\humhub\modules\cet_entite\models;
+namespace humhub\modules\cet_entite\models;
 
 use Yii;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\cet_entite\widgets\Wall;
-use app\humhub\modules\cet_producteur_lieu\models\CetProducteurLieu;
-use app\humhub\modules\cet_type\models\CetType;
-use app\humhub\modules\cet_produit\models\CetProduit;
-use app\humhub\modules\cet_infos_producteur\models\CetInfosProducteur;
+use humhub\modules\cet_producteur_lieu\models\CetProducteurLieu;
+use humhub\modules\cet_type\models\CetType;
+use humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\cet_join_produit\models\CetJoinProduit;
+use humhub\modules\cet_join_type\models\CetJoinType;
+use humhub\modules\cet_infos_producteur\models\CetInfosProducteur;
 
 /**
  * This is the model class for table "cet_entite".

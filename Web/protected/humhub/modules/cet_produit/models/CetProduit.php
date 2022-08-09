@@ -1,11 +1,12 @@
 <?php
 
-namespace app\humhub\modules\cet_produit\models;
+namespace humhub\modules\cet_produit\models;
 
 use Yii;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\cet_produit\widgets\Wall;
-use app\humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_join_produit\models\CetJoinProduit;
+use humhub\modules\cet_entite\models\CetEntite;
 
 /**
  * This is the model class for table "cet_produit".

@@ -1,26 +1,50 @@
-### Versionalisation + documention du projet .
+### Importations des csv dans mysql .
+
+LOAD DATA INFILE '/var/lib/mysql-files/cet_communes.csv'
+INTO TABLE cet_communes
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
 
 
+LOAD DATA INFILE '/var/lib/mysql-files/cet_entite_extrait_producteurs.csv'
+INTO TABLE cet_entite
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(name,type,street,zip,city,country,state,latitude,longitude,pk,id,@isActive,telFixe,telMobile,email,contactPrenom,contactNom,siret,urlWeb,urlFB,urlIg,urlTwitter,urlBoutique,commentaire) set
+       isActive=cast(@isActive as signed);
 
+LOAD DATA INFILE '/var/lib/mysql-files/cet_produit.csv'
+INTO TABLE cet_produit
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(id,categorie,nom,@valide) set
+       valide=cast(1 as signed);
 
+LOAD DATA INFILE '/var/lib/mysql-files/cet_type.csv'
+INTO TABLE cet_type
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(id,type,sous_type,@valide) set
+       valide=cast(1 as signed);
 
-### Décomposition des entités de la V1 vers des Searchable pour la V2
+LOAD DATA INFILE '/var/lib/mysql-files/cet_join_type.csv'
+INTO TABLE cet_join_type
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
 
-# SearchableMap
-
-
-Identité
-Adresse découper comme pour le User humhub
-email
-téléphone
-
-created/updated_at
-
-commentaire/description
-
-
-# SearchableProductMap 
-
-Liste de Produits
-
-# Passage entre les recherche en indicant sa position 
+LOAD DATA INFILE '/var/lib/mysql-files/cet_join_produit.csv'
+INTO TABLE cet_join_produit
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
