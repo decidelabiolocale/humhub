@@ -10,6 +10,7 @@ use yii\helpers\Html;
             <div class="media-body">
                 <h4 class="media-heading"><?= Html::encode($cet_entite->name); ?> </h4>
                 <h5>Type : <?= Html::encode($cet_entite->type); ?></h5>
+                <h5>Produit : <?= Html::encode($cet_entite->produits); ?></h5>
             </div>
         </div>
 

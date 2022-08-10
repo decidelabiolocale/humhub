@@ -193,9 +193,22 @@ class CetEntite extends \yii\db\ActiveRecord implements Searchable
         $attributes = [
             'name' => $this->name,
             'type' => $this->type,
-            'city' => $this->city
+            'city' => $this->city,
+            'produits' => $this->getProduits()
         ];
 
         return $attributes;
 	}
+
+    function getProduits() {
+        $produits = "";
+        foreach ($this->fkProduits as $index=>$index) {
+            if ($index == 0) {
+                $produits .= $this->fkProduits[0]->nom;
+            } else {
+                $produits .= ", ". $this->fkProduits[$index]->nom;
+            }
+        }
+        return $produits;
+    }
 }
