@@ -65,3 +65,10 @@ services:
     cap_add:
       - IPC_LOCK
     restart: unless-stopped
+  adminCrud:
+    image: yiisoftware/yii2-php:7.4-apache
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./adminCrud:/app:delegated
+    ports:
+      - '80:8080'
