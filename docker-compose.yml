@@ -71,4 +71,4 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./adminCrud:/app:delegated
     ports:
-      - '80:8080'
+      - '8080:80'

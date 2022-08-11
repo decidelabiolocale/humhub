@@ -12,5 +12,12 @@ return [
             'class' => 'humhub\modules\cet_entite\modules\manage\Module'
         ],
     ],
-    'events' => [[Search::class, Search::EVENT_ON_REBUILD, [Events::class, 'onSearchRebuild']],],
+    'events' => [
+        [
+            Search::class, Search::EVENT_ON_REBUILD, [Events::class, 'onSearchRebuild']
+        ]
+    ],
+    'urlManagerRules' => [
+        'cet_entite' => 'cet_entite/cet_entite_crud',
+    ]
 ];
