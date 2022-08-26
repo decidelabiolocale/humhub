@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-
+use app\models\cetcal_model\Communes;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search_model\CommunesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

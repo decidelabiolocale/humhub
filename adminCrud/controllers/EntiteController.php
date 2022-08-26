@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\cetcal_model\Entite;
+use app\models\cetcal_model\Infosproducteur;
 use app\models\search_model\EntiteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -111,7 +112,16 @@ class EntiteController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // TODO: remove Infosproducteur
+        $idProducteur = $this->findModel($id)->pk;
+
+        if ($idProducteur && ($model = Infosproducteur::findOne(['id' => $idProducteur])) !== null) {
+             $model->delete();
+        }
+        else {
+            $this->findModel($id)->delete();
+        }
+        
 
         return $this->redirect(['index']);
     }

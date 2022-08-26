@@ -38,8 +38,16 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            /*['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],*/
+            ['label' => 'Entite', 'url' => ['/entite/index']],
+            ['label' => 'Produit', 'url' => ['/produit/index']],
+            ['label' => 'Communes', 'url' => ['/communes/index']],
+            ['label' => 'Producteur', 'url' => ['/infosproducteur/index']],
+            ['label' => 'Producteur Lieu', 'url' => ['producteurlieu/index']],
+            ['label' => 'Types', 'url' => ['type/index']],
+            ['label' => 'Join produit', 'url' => ['joinproduit/index']],
+            ['label' => 'Join type', 'url' => ['jointype/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

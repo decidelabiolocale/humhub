@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'latitude',
             //'longitude',
             //'pk',
-            //'id',
+            'id',
             //'isActive:boolean',
             //'telFixe',
             //'telMobile',

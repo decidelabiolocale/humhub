@@ -32,13 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'prod_inscrit',
             'fournisseur_cet',
             'niv_certif_ab',
-            'orgcertifbio',
-            'urlcertifab',
+            //'orgcertifbio',
+            //'urlcertifab',
             //'surfacehectterres',
             //'surfacesousserre',
             //'tetes_betail',
             //'hl_par_an',
-            //'id',
+            'id',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Infosproducteur $model, $key, $index, $column) {
