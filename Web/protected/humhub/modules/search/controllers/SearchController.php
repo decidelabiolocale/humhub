@@ -39,6 +39,11 @@ class SearchController extends Controller
     public static $keyword = null;
 
     /**
+     * Display map for the search
+     *
+     */
+    public $displayMap ;
+    /**
      * @inheritdoc
      */
     public function init()
@@ -79,7 +84,7 @@ class SearchController extends Controller
             'pageSize' => Yii::$app->settings->get('paginationSize'),
             'limitSpaces' => $limitSpaces
         ];
-
+        $displayMap = false;
         if ($model->scope == SearchForm::SCOPE_CONTENT) {
             $options['type'] = Search::DOCUMENT_TYPE_CONTENT;
         } elseif ($model->scope == SearchForm::SCOPE_SPACE) {
@@ -88,6 +93,7 @@ class SearchController extends Controller
             $options['model'] = User::class;
         } elseif ($model->scope == SearchForm::SCOPE_CET_ENTITE) {
             $options['model'] = CetEntite::class;
+            $displayMap = true;
         } elseif ($model->scope == SearchForm::SCOPE_CET_PRODUIT) {
             $options['model'] = CetProduit::class;
         }
@@ -109,7 +115,8 @@ class SearchController extends Controller
                     'results' => $searchResultSet->getResultInstances(),
                     'pagination' => $pagination,
                     'totals' => $model->getTotals($model->keyword, $options),
-                    'limitSpaces' => $limitSpaces
+                    'limitSpaces' => $limitSpaces,
+                    'displayMap' => $displayMap
         ]);
     }
 

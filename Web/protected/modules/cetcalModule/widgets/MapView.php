@@ -12,17 +12,18 @@ use Yii;
 use yii\helpers\Url;
 use humhub\components\Widget;
 use humhub\modules\cetcalModule\models\admin\EditForm;
-//use humhub\modules\adresse_cet\models\AdresseCet;
+use humhub\modules\cet_entite\models\CetEntite;
 
 class MapView extends Widget
 {
 
+    public $cetEntites = [];
     /**
      * Height of the Widget (css Values)
      *
      * @var string
      */
-    public $height = "20em";
+    public $height = "50em";
 
     /**
      * Show map as panel
@@ -61,13 +62,30 @@ class MapView extends Widget
 
     private function getAllAdresseCets()
     {
-/*
+        if(count($this->cetEntites) > 0){
+            $formatedAdresseCets = [];
+            foreach($this->cetEntites as $cetEntite){
+                $formatedAdresseCets[] = [
+                    'name' => $cetEntite->name,
+                    'type' => (count($cetEntite->fkTypes) > 1 ? "producteur" : $cetEntite->fkTypes[0]->type),
+                    'street' => $cetEntite->street,
+                    'zip' => $cetEntite->zip,
+                    'city' => $cetEntite->city,
+                    'country' => $cetEntite->country,
+                    'state' => $cetEntite->state,
+                    'latitude' => floatval($cetEntite->latitude),
+                    'longitude' => floatval($cetEntite->longitude),
+                    'pk' => $cetEntite->pk,
+                    'id' => $cetEntite->id
+                ];
+            }
+            return $formatedAdresseCets;
+        }
         $formatedAdresseCets = [];
-        foreach (AdresseCet::findAll(['isActive' => 1]) as $adresseCet) {
-
+        foreach (CetEntite::findAll(['isActive' => 1]) as $adresseCet) {
             $formatedAdresseCets[] = [
                 'name' => $adresseCet->name,
-                'type' => $adresseCet->type,
+                'type' => (count($adresseCet->fkTypes) > 1 ? "producteur" : $adresseCet->fkTypes[0]->type),
                 'street' => $adresseCet->street,
                 'zip' => $adresseCet->zip,
                 'city' => $adresseCet->city,
@@ -76,14 +94,15 @@ class MapView extends Widget
                 'latitude' => floatval($adresseCet->latitude),
                 'longitude' => floatval($adresseCet->longitude),
                 'pk' => $adresseCet->pk,
+                'id' => $adresseCet->id
             ];
         }
-        return $formatedAdresseCets;*/
-        return [];
+        return $formatedAdresseCets;
+
     }
 
-    private function getCoordinates(/*AdresseCet $adresseCet*/)
-    {/*
+    private function getCoordinates(CetEntite $adresseCet)
+    {
         $coordinates = [];
         if ($adresseCet->latitude !== null && $adresseCet->longitude !== null) {
             $coordinates = [
@@ -93,6 +112,6 @@ class MapView extends Widget
         }
         return $coordinates;
 
-*/
+
     }
 }

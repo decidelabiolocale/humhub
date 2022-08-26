@@ -14,6 +14,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\stream\actions\Stream;
 use humhub\widgets\LinkPager;
 use humhub\modules\search\interfaces\Searchable;
+use humhub\modules\cetcalModule\widgets\MapView;
 
 humhub\modules\stream\assets\StreamAsset::register($this);
 
@@ -25,21 +26,20 @@ humhub\modules\stream\assets\StreamAsset::register($this);
 
 ?>
 <script <?= Html::nonce() ?>>
-
     $(document).on('humhub:ready', function() {
         $('#search-input-field').focus();
 
-        $('#collapse-search-settings').on('show.bs.collapse', function () {
+        $('#collapse-search-settings').on('show.bs.collapse', function() {
             // change link arrow
             $('#search-settings-link i').removeClass('fa-caret-right');
             $('#search-settings-link i').addClass('fa-caret-down');
         });
 
-        $('#collapse-search-settings').on('shown.bs.collapse', function () {
+        $('#collapse-search-settings').on('shown.bs.collapse', function() {
             $('#space_input_field').focus();
         })
 
-        $('#collapse-search-settings').on('hide.bs.collapse', function () {
+        $('#collapse-search-settings').on('hide.bs.collapse', function() {
             // change link arrow
             $('#search-settings-link i').removeClass('fa-caret-down');
             $('#search-settings-link i').addClass('fa-caret-right');
@@ -47,10 +47,10 @@ humhub\modules\stream\assets\StreamAsset::register($this);
 
 
         <?php foreach (explode(' ', $model->keyword) as $k) : ?>
-        $(".searchResults").highlight("<?= Html::encode($k); ?>");
-        $(document).ajaxComplete(function (event, xhr, settings) {
             $(".searchResults").highlight("<?= Html::encode($k); ?>");
-        });
+            $(document).ajaxComplete(function(event, xhr, settings) {
+                $(".searchResults").highlight("<?= Html::encode($k); ?>");
+            });
         <?php endforeach; ?>
     });
 </script>
@@ -78,17 +78,14 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                             </div>
 
                             <div class="text-center">
-                                <a data-toggle="collapse"
-                                   id="search-settings-link"
-                                   href="#collapse-search-settings"
-                                   style="font-size: 11px;">
+                                <a data-toggle="collapse" id="search-settings-link" href="#collapse-search-settings" style="font-size: 11px;">
                                     <i class="fa fa-caret-right"></i> <?= Yii::t('SearchModule.base', 'Advanced search settings') ?>
                                 </a>
                             </div>
 
                             <div id="collapse-search-settings" class="panel-collapse collapse">
                                 <br>
-                                <?=  Yii::t('SearchModule.base', 'Search only in certain spaces:') ?>
+                                <?= Yii::t('SearchModule.base', 'Search only in certain spaces:') ?>
                                 <?= SpacePickerField::widget([
                                     'id' => 'space_filter',
                                     'model' => $model,
@@ -107,7 +104,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
         </div>
     </div>
 
-    <?php if (!empty($model->keyword)): ?>
+    <?php if (!empty($model->keyword)) : ?>
         <div class="row">
             <div class="col-md-2">
                 <div class="panel panel-default">
@@ -115,41 +112,36 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                         <?= Yii::t('SearchModule.base', '<strong>Search </strong> results') ?>
                     </div>
                     <div class="list-group">
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ALL]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ALL) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ALL]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ALL) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'All') ?>
                                     (<?= $totals[SearchForm::SCOPE_ALL] ?>)
                                 </div>
                             </div>
                         </a>
-                        <br/>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CONTENT]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CONTENT) ? ' active' : '' ?>">
+                        <br />
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CONTENT]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CONTENT) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Content') ?>
                                     (<?= $totals[SearchForm::SCOPE_CONTENT] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_USER]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_USER) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_USER]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_USER) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Users') ?>
                                     (<?= $totals[SearchForm::SCOPE_USER] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_SPACE]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_SPACE) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_SPACE]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_SPACE) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Spaces') ?>
                                     (<?= $totals[SearchForm::SCOPE_SPACE] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_PRODUIT]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_PRODUIT) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_PRODUIT]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_PRODUIT) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group ">Produits
                                     (<?= $totals[SearchForm::SCOPE_CET_PRODUIT] ?>)
@@ -161,8 +153,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                         Résultat sur la map
                     </div>
                     <div class="list-group">
-                    <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_ENTITE]); ?>'
-                           class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_ENTITE) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_ENTITE]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_ENTITE) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "> CetEntite
                                     (<?= $totals[SearchForm::SCOPE_CET_ENTITE] ?>)
@@ -170,43 +161,80 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                             </div>
                         </a>
                     </div>
+                </div>
+
+
             </div>
+            <div class="col-md-10 row">
+                <?php if ($displayMap) : ?>
+                    <div class="col-md-8">
+                        <?= MapView::widget(['cetEntites' => $results]) ?>
+                    </div>
+                    <div class="searchResults col-md-4">
+                        <?php if (count($results) > 0) : ?>
+                            <?php foreach ($results as $result) : ?>
+                                <?php try {  ?>
+                                    <?php if ($result instanceof ContentActiveRecord) : ?>
+                                        <?= StreamEntryWidget::renderStreamEntry(
+                                            $result,
+                                            (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH)
+                                        ) ?>
+                                    <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php elseif ($result instanceof Searchable) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php else : ?>
+                                        No Output for Class <?= get_class($result); ?>
+                                    <?php endif; ?>
+                                <?php } catch (\Throwable $e) {
+                                    Yii::error($e);
+                                } ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php else : ?>
+                    <div class="searchResults">
 
-
-        </div>
-        <div class="col-md-10">
-
-<div class="searchResults">
-
-    <?php if (count($results) > 0): ?>
-        <?php foreach ($results as $result): ?>
-            <?php try {  ?>
-                <?php if ($result instanceof ContentActiveRecord) : ?>
-                    <?= StreamEntryWidget::renderStreamEntry($result,
-                        (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH))?>
-                <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
-                    <?= $result->getWallOut() ?>
-                <?php elseif ($result instanceof Searchable) : ?>
-                    <?= $result->getWallOut() ?>
-                <?php else: ?>
-                    No Output for Class <?= get_class($result); ?>
+                        <?php if (count($results) > 0) : ?>
+                            <?php foreach ($results as $result) : ?>
+                                <?php try {  ?>
+                                    <?php if ($result instanceof ContentActiveRecord) : ?>
+                                        <?= StreamEntryWidget::renderStreamEntry(
+                                            $result,
+                                            (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH)
+                                        ) ?>
+                                    <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php elseif ($result instanceof Searchable) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php else : ?>
+                                        No Output for Class <?= get_class($result); ?>
+                                    <?php endif; ?>
+                                <?php } catch (\Throwable $e) {
+                                    Yii::error($e);
+                                } ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
-            <?php } catch(\Throwable $e) {Yii::error($e);} ?>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
+                <div class="pagination-container"><?= LinkPager::widget(['pagination' => $pagination]) ?></div>
+                <br><br>
             </div>
-        </div>
-    <?php endif; ?>
-</div>
 
-<div class="pagination-container"><?= LinkPager::widget(['pagination' => $pagination]) ?></div>
-<br><br>
-</div>
+
         <?php endif; ?>
 
-    <?= FooterMenu::widget(['location' => FooterMenu::LOCATION_FULL_PAGE]); ?>
-</div>
-
+        <?= FooterMenu::widget(['location' => FooterMenu::LOCATION_FULL_PAGE]); ?>
+        </div>
