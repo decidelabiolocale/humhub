@@ -44,7 +44,7 @@ abstract class Search extends Component
     /**
      * @var int the minimum length of a search token
      */
-    public $minQueryTokenLength = 2;
+    public $minQueryTokenLength = 1;
 
     /**
      * Retrieves results from search
@@ -126,6 +126,14 @@ abstract class Search extends Component
             $meta['containerModel'] = $obj->className();
             $meta['containerPk'] = $obj->id;
         }
+        // reconstruction l'index suite aux modifications du tableau meta
+        if ($obj instanceof CetEntite) {
+            $meta['typesId'] = "_";
+            foreach($obj->fkTypes as $type){
+                $meta['typesId'] .= $type->id."_";
+            }
+            print($obj->name. " ajout de ses types dans le tableau meta recherches .\n");
+        }
 
         // Add content related meta data
         if ($meta['type'] == self::DOCUMENT_TYPE_CONTENT) {
@@ -185,6 +193,10 @@ abstract class Search extends Component
 
         if (!isset($options['limitSpaces'])) {
             $options['limitSpaces'] = [];
+        }
+
+        if (!isset($options['limitTypes'])) {
+            $options['limitTypes'] = [];
         }
 
         return $options;

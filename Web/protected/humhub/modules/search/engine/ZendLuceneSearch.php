@@ -14,6 +14,8 @@ use humhub\modules\search\libs\SearchResult;
 use humhub\modules\search\libs\SearchResultSet;
 use humhub\modules\space\models\Membership;
 use humhub\modules\space\models\Space;
+use humhub\modules\cet_entite\models\CetEntite;
+use humhub\modules\cet_type\models\CetType;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
@@ -196,7 +198,7 @@ class ZendLuceneSearch extends Search
 
             $resultSet->results[] = $result;
         }
-
+        //print var_dump($resultSet);
         return $resultSet;
     }
 
@@ -223,10 +225,16 @@ class ZendLuceneSearch extends Search
                 $emptyQuery = false;
             }
         }
+        if($keyword == '') {
+            $term = new Term("*$k*");
+            $query->addSubquery(new Wildcard($term), true);
+            $emptyQuery = false;
 
+        }
         // if only too short keywords are given, the result is empty
         // when no keyword was given - show some results
         if ($emptyQuery && $keyword != '') {
+            //print var_dump($emptyQuery);
             return null;
         }
 
@@ -239,7 +247,9 @@ class ZendLuceneSearch extends Search
                 }
                 $query->addSubquery($boolQuery, true);
             } else {
+                $boolQuery = new Boolean();
                 $term = new Term($options['model'], 'model');
+
                 $query->addSubquery(new QueryTerm($term), true);
             }
         }
@@ -323,7 +333,20 @@ class ZendLuceneSearch extends Search
             $spaceBaseQuery->addSubquery($spaceIdQuery, true);
             $query->addSubquery($spaceBaseQuery, true);
         }
-
+        /*  filtrer les résultats en amont */
+        if (count($options['limitTypes']) > 0) {
+            //print var_dump($options['limitTypes']);
+            $strQuery = "";
+            foreach ($options['limitTypes'] as $type) {
+                $strQuery .= '(typesId:*_'.$type->id.'_*)';
+            }
+            $queryParserStr = new QueryParser();
+            $queryParserStr->setDefaultOperator(QueryParser::B_OR);
+            $queryStr = $queryParserStr->parse($strQuery);
+            //print var_dump($queryTest);
+            $query->addSubquery($queryStr, true);
+        }
+        //print $query->__toString();
         return $query;
     }
 
@@ -363,5 +386,4 @@ class ZendLuceneSearch extends Search
 
         return $path;
     }
-
 }

@@ -23,7 +23,7 @@ class Events extends BaseObject
             Yii::$app->search->add($cet_entite);
             print $cet_entite->name . "added \n";
         }
-        print 'cet entite loaded \n';
+        print "cet entite loaded \n";
     }
 
 }

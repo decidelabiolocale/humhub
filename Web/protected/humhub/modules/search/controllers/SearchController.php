@@ -18,6 +18,7 @@ use humhub\modules\search\models\forms\SearchForm;
 use humhub\modules\search\engine\Search;
 use humhub\modules\cet_entite\models\CetEntite;
 use humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\cet_type\models\CetType;
 
 /**
  * Search Controller provides search functions inside the application.
@@ -36,7 +37,7 @@ class SearchController extends Controller
     /**
      * @var string the current search keyword
      */
-    public static $keyword = null;
+    public static $keyword = '';
 
     /**
      * Display map for the search
@@ -46,6 +47,8 @@ class SearchController extends Controller
     /**
      * @inheritdoc
      */
+    public $showResults = false ;
+
     public function init()
     {
         $this->appendPageTitle(\Yii::t('SearchModule.base', 'Search'));
@@ -77,12 +80,33 @@ class SearchController extends Controller
                 }
             }
         }
+        $limitTypes = [];
+        if (!empty($model->limitTypesIds)) {
+            foreach ($model->limitTypesIds as $id) {
+                $type = CetType::findOne(['id' => trim($id)]);
+                if ($type !== null){
+                    $limitTypes[] = $type;
+                }
+            }
+            $this->showResults = true;
+        }
+        $limitCommunes = [];
+        if(!empty($model->limitCommunesIds)) {
+            foreach ($model->limitCommunesIds as $id) {
+                $commune = CetType::findOne(['id' => trim($id)]);
+                if ($commune !== null){
+                    $limitCommunes[] = $commune;
+                }
+            }
+            $this->showResults = true;
+        }
 
         $options = [
             'page' => $model->page,
             'sort' => (empty($model->keyword)) ? 'title' : null,
             'pageSize' => Yii::$app->settings->get('paginationSize'),
-            'limitSpaces' => $limitSpaces
+            'limitSpaces' => $limitSpaces,
+            'limitTypes' => $limitTypes
         ];
         $displayMap = false;
         if ($model->scope == SearchForm::SCOPE_CONTENT) {
@@ -116,7 +140,10 @@ class SearchController extends Controller
                     'pagination' => $pagination,
                     'totals' => $model->getTotals($model->keyword, $options),
                     'limitSpaces' => $limitSpaces,
-                    'displayMap' => $displayMap
+                    'limitTypes' => $limitTypes,
+                    'limitCommunes' => $limitCommunes,
+                    'displayMap' => $displayMap,
+                    'showResults' => $this->showResults
         ]);
     }
 

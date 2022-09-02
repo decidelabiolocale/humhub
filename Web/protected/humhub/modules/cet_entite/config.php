@@ -16,8 +16,5 @@ return [
         [
             Search::class, Search::EVENT_ON_REBUILD, [Events::class, 'onSearchRebuild']
         ]
-    ],
-    'urlManagerRules' => [
-        'cet_entite' => 'cet_entite/cet_entite_crud',
     ]
 ];

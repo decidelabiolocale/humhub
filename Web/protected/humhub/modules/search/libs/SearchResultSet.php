@@ -59,6 +59,7 @@ class SearchResultSet
                 continue;
             }
             if ($instance !== null) {
+
                 $instances[] = $instance;
             } else {
                 Yii::info('Could not load search result ' . $result->model . " - " . $result->pk, 'search');
@@ -67,5 +68,4 @@ class SearchResultSet
 
         return $instances;
     }
-
 }

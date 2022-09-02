@@ -3,6 +3,7 @@
 use humhub\modules\content\widgets\stream\StreamEntryWidget;
 use humhub\modules\content\widgets\stream\WallStreamEntryOptions;
 use humhub\modules\space\widgets\SpacePickerField;
+use humhub\modules\cet_type\widgets\TypePickerField;
 use humhub\widgets\FooterMenu;
 use yii\data\Pagination;
 use yii\helpers\Url;
@@ -15,6 +16,7 @@ use humhub\modules\stream\actions\Stream;
 use humhub\widgets\LinkPager;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\cetcalModule\widgets\MapView;
+use humhub\modules\cet_commune\widgets\CommunePickerField;
 
 humhub\modules\stream\assets\StreamAsset::register($this);
 
@@ -85,6 +87,26 @@ humhub\modules\stream\assets\StreamAsset::register($this);
 
                             <div id="collapse-search-settings" class="panel-collapse collapse">
                                 <br>
+                                <p>Rechercher uniquement certains types d'Entités:</p>
+                                <?= TypePickerField::widget([
+                                    'id' => 'type_filter',
+                                    'model' => $model,
+                                    'attribute' => 'limitTypesIds',
+                                    'selection' => $limitTypes,
+                                    'placeholder' => "Préciser vos types"
+                                ])
+                                ?>
+                                <br>
+                                <p>Rechercher aux alentours de communes </p>
+                                <?= CommunePickerField::widget([
+                                    'id' => 'commune_filter',
+                                    'model' => $model,
+                                    'attribute' => 'limitCommunesIds',
+                                    'selection' => $limitCommunes,
+                                    'placeholder' => "Préciser vos types"
+                                ])
+                                ?>
+                                <br>
                                 <?= Yii::t('SearchModule.base', 'Search only in certain spaces:') ?>
                                 <?= SpacePickerField::widget([
                                     'id' => 'space_filter',
@@ -104,7 +126,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
         </div>
     </div>
 
-    <?php if (!empty($model->keyword)) : ?>
+    <?php if (!empty($model->keyword) || $showResults) : ?>
         <div class="row">
             <div class="col-md-2">
                 <div class="panel panel-default">
@@ -112,7 +134,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                         <?= Yii::t('SearchModule.base', '<strong>Search </strong> results') ?>
                     </div>
                     <div class="list-group">
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ALL]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ALL) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_ALL, 'SearchForm[limitTypesIds]' => $model->limitTypesIds, 'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_ALL) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'All') ?>
                                     (<?= $totals[SearchForm::SCOPE_ALL] ?>)
@@ -120,28 +142,28 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                             </div>
                         </a>
                         <br />
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CONTENT]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CONTENT) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CONTENT, 'SearchForm[limitTypesIds]' => $model->limitTypesIds, 'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CONTENT) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Content') ?>
                                     (<?= $totals[SearchForm::SCOPE_CONTENT] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_USER]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_USER) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_USER, 'SearchForm[limitTypesIds]' => $model->limitTypesIds, 'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_USER) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Users') ?>
                                     (<?= $totals[SearchForm::SCOPE_USER] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_SPACE]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_SPACE) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_SPACE, 'SearchForm[limitTypesIds]' => $model->limitTypesIds, 'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_SPACE) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "><?= Yii::t('SearchModule.base', 'Spaces') ?>
                                     (<?= $totals[SearchForm::SCOPE_SPACE] ?>)
                                 </div>
                             </div>
                         </a>
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_PRODUIT]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_PRODUIT) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_PRODUIT, 'SearchForm[limitTypesIds]' => $model->limitTypesIds,'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_PRODUIT) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group ">Produits
                                     (<?= $totals[SearchForm::SCOPE_CET_PRODUIT] ?>)
@@ -153,7 +175,7 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                         Résultat sur la map
                     </div>
                     <div class="list-group">
-                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_ENTITE]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_ENTITE) ? ' active' : '' ?>">
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_CET_ENTITE, 'SearchForm[limitTypesIds]' => $model->limitTypesIds,'SearchForm[limitCommunesIds]' => $model->limitCommunesIds]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_CET_ENTITE) ? ' active' : '' ?>">
                             <div>
                                 <div class="edit_group "> CetEntite
                                     (<?= $totals[SearchForm::SCOPE_CET_ENTITE] ?>)

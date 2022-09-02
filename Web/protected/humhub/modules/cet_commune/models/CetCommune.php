@@ -52,4 +52,7 @@ class CetCommune extends \yii\db\ActiveRecord
             'code_departement' => 'Code Departement',
         ];
     }
+    public function getDisplayName(){
+        return $this->commune;
+    }
 }

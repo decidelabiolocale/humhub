@@ -79,4 +79,8 @@ class CetType extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CetProducteurLieu::className(), ['Fk_type' => 'id']);
     }
+
+    public function getDisplayName(){
+        return $this->type;
+    }
 }
