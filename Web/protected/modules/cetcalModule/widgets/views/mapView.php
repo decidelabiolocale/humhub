@@ -14,9 +14,12 @@ use humhub\modules\cetcalModule\assets\MapAssetBundle;
 
 JqueryKnobAsset::register($this);
 MapAssetBundle::register($this);
-?>
 
+?>
+<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+<script src="assets/js/leaflet.zoomfs.js"></script>
 <?php if ($showAsPanel) { ?>
+
     <div class="panel" id="adresseCetmap-map-view-snippet">
 
         <div class="panel-heading">
@@ -33,7 +36,10 @@ MapAssetBundle::register($this);
 
         <script <?= Html::nonce() ?>>
             $(document).ready(function() {
+                var L = window.L;
                 var map = L.map('adresseCet-main-map').setView([<?= $mapCenter['latitude'] ?>, <?= $mapCenter['longitude'] ?>], <?= $mapCenter['zoom'] ?>);
+
+                map.addControl(zoomFS);
                 var markers = L.markerClusterGroup();
                 const icons_array = []; {
                     var cetIconAlgues = L.icon({
@@ -332,7 +338,6 @@ MapAssetBundle::register($this);
                 }).addTo(map);
                 var icon_carto = undefined;
                 var allAdresseCets = <?= json_encode($adresseCet_data); ?>;
-                console.log("adresses Cet : ", allAdresseCets);
                 //TODO: Ajouter l'icone correspondant
                 $.each(allAdresseCets, function(i, adresseCet) {
                     if (adresseCet.latitude && adresseCet.longitude) {
@@ -413,8 +418,7 @@ MapAssetBundle::register($this);
                                 icon_carto = cetIconProducteur;
                         }
 
-                        // Latitude et longitude inversé avec les donnée CETCAL
-                        var marker = L.marker([adresseCet.longitude, adresseCet.latitude], {
+                        var marker = L.marker([adresseCet.latitude, adresseCet.longitude], {
                             icon: icon_carto
                         });
                         marker.bindPopup('<b>' + adresseCet.name + '</b><br>' + adresseCet.type + '<br>' + '<a href="http://localhost:8081/index.php?r=cet_entite%2Fdetail&id=' + adresseCet.id + '"> détail </a>');
@@ -423,6 +427,18 @@ MapAssetBundle::register($this);
                 });
 
                 map.addLayer(markers);
+
+                //TODO cercle autour des communes sélectionnés
+                var communesLatLng = <?= json_encode($communesLatLng) ?>;
+                var distance = <?= json_encode($distance) ?>;
+                if (communesLatLng.length > 0) {
+                    $.each(communesLatLng, function(i, commune) {
+                        L.circle([commune.latitude, commune.longitude], distance * 1000, {
+                            'fillOpacity': 0,
+                            'color': 'red',
+                        }).addTo(map);
+                    })
+                }
             });
         </script>
 

@@ -37,7 +37,7 @@ use yii\helpers\Url;
         <li>
             <form action="" class="dropdown-controls">
                 <div <?= $canAccessDirectory ? 'class="input-group"' : '' ?>>
-                    <input commune="text" id="space-menu-search" class="form-control" autocomplete="off"
+                    <input commune="text" id="commune-menu-search" class="form-control" autocomplete="off"
                            placeholder="<?= Yii::t('SpaceModule.chooser', 'Search') ?>"
                            title="<?= Yii::t('SpaceModule.chooser', 'Search for spaces') ?>">
                     <?php if ($canAccessDirectory) : ?>

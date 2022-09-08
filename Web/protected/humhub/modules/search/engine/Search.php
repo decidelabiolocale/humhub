@@ -20,6 +20,7 @@ use humhub\modules\space\models\Space;
 use humhub\modules\search\events\SearchAttributesEvent;
 use humhub\modules\cet_entite\models\CetEntite;
 use humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\cet_commune\models\CetCommune;
 
 /**
  * Description of HSearchComponent
@@ -64,7 +65,7 @@ abstract class Search extends Component
      * @param array $options
      * @return SearchResultSet
      */
-    abstract public function find($query, Array $options);
+    abstract public function find($query, array $options);
 
     /**
      * Stores an object in search index.
@@ -112,7 +113,6 @@ abstract class Search extends Component
      */
     public function optimize()
     {
-
     }
 
     protected function getMetaInfoArray(Searchable $obj)
@@ -128,11 +128,33 @@ abstract class Search extends Component
         }
         // reconstruction l'index suite aux modifications du tableau meta
         if ($obj instanceof CetEntite) {
-            $meta['typesId'] = "_";
-            foreach($obj->fkTypes as $type){
-                $meta['typesId'] .= $type->id."_";
+            //TODO:
+            //isCertifier
+            $meta['isCertifier'] = $obj->pk0->niv_certif_ab == 1 ? "true" : "false";
+            //_idCommuneDistanceKM_
+            $meta['distanceCommune'] = "_";
+            foreach (CetCommune::find()->all() as $commune) {
+                //Calcul de la distance $distanceKM
+                $distanceKM = $this->distance($obj->latitude, $obj->longitude, $commune->Latitude, $commune->Longitude);
+                print 'distance entre '.$obj->name.' et '.$commune->commune.' est calculer à '.$distanceKM." KM \n";
+                if ($distanceKM <= 40) {
+                    $meta['distanceCommune'] .= $commune->id . '40_';
+                    if ($distanceKM <= 30) {
+                        $meta['distanceCommune'] .= $commune->id . '30_';
+                        if ($distanceKM <= 20) {
+                            $meta['distanceCommune'] .= $commune->id . '20_';
+                            if ($distanceKM <= 10) {
+                                $meta['distanceCommune'] .= $commune->id . '10_';
+                            }
+                        }
+                    }
+                }
             }
-            print($obj->name. " ajout de ses types dans le tableau meta recherches .\n");
+            $meta['typesId'] = "_";
+            foreach ($obj->fkTypes as $type) {
+                $meta['typesId'] .= $type->id . "_";
+            }
+            print($obj->name . " ajout de ses types dans le tableau meta recherches .\n");
         }
 
         // Add content related meta data
@@ -147,10 +169,9 @@ abstract class Search extends Component
                 $meta['visibility'] = self::DOCUMENT_VISIBILITY_PRIVATE;
             }
 
-            $meta['contentTags'] = implode(', ', array_map(function(ContentTag $tag) {
+            $meta['contentTags'] = implode(', ', array_map(function (ContentTag $tag) {
                 return $tag->name;
             }, $obj->content->tags));
-
         } elseif ($meta['type'] == self::DOCUMENT_TYPE_SPACE && $obj->visibility == Space::VISIBILITY_NONE) {
             $meta['visibility'] = self::DOCUMENT_VISIBILITY_PRIVATE;
         } else {
@@ -170,7 +191,7 @@ abstract class Search extends Component
             return self::DOCUMENT_TYPE_CONTENT;
         } elseif ($obj instanceof CetEntite) {
             return self::DOCUMENT_TYPE_CET_ENTITE;
-        }elseif ($obj instanceof CetProduit) {
+        } elseif ($obj instanceof CetProduit) {
             return self::DOCUMENT_TYPE_CET_PRODUIT;
         } else {
             return self::DOCUMENT_TYPE_OTHER;
@@ -217,4 +238,24 @@ abstract class Search extends Component
         return $additionalAttributes;
     }
 
+    protected function distance($lat1, $lng1, $lat2, $lng2, $miles = false)
+    {
+        print "Calcul de distance ... \n";
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lng1 *= $pi80;
+        $lat2 *= $pi80;
+        $lng2 *= $pi80;
+
+        $r = 6372.797; // rayon moyen de la Terre en km
+        $dlat = $lat2 - $lat1;
+        $dlng = $lng2 - $lng1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin(
+            $dlng / 2
+        ) * sin($dlng / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+
+        return ($miles ? ($km * 0.621371192) : $km);
+    }
 }

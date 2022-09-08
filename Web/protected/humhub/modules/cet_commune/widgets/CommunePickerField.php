@@ -64,4 +64,30 @@ class CommunePickerField extends BasePicker
         return Image::widget(['commune' => $item, 'width' => 24]);
     }
 
+    public function run()
+    {
+        if ($this->selection != null && !is_array($this->selection)) {
+            $this->selection = [$this->selection];
+        }
+
+        // Prepare current selection and selection options
+        $selection = [];
+        $selectedOptions = $this->getSelectedOptions();
+        foreach ($selectedOptions as $id => $option) {
+            $selection[$id] = $option['data-text'];
+        }
+
+        $options = $this->getOptions();
+        $options['options'] = $selectedOptions;
+
+        if ($this->form != null) {
+            return $this->form->field($this->model, $this->attribute)->dropDownList($selection, $options);
+        } elseif ($this->model != null) {
+            return Html::activeDropDownList($this->model, $this->attribute, $selection, $options);
+        } else {
+            $name = (!$this->name) ? 'pickerField' : $this->name;
+            return Html::dropDownList($name, $this->value, $selection, $options);
+        }
+    }
+
 }

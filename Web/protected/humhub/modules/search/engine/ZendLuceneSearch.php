@@ -225,12 +225,7 @@ class ZendLuceneSearch extends Search
                 $emptyQuery = false;
             }
         }
-        if($keyword == '') {
-            $term = new Term("*$k*");
-            $query->addSubquery(new Wildcard($term), true);
-            $emptyQuery = false;
 
-        }
         // if only too short keywords are given, the result is empty
         // when no keyword was given - show some results
         if ($emptyQuery && $keyword != '') {
@@ -343,10 +338,29 @@ class ZendLuceneSearch extends Search
             $queryParserStr = new QueryParser();
             $queryParserStr->setDefaultOperator(QueryParser::B_OR);
             $queryStr = $queryParserStr->parse($strQuery);
-            //print var_dump($queryTest);
+            //print $strQuery . "\n";
+            $query->addSubquery($queryStr, true);
+        }
+        if (count($options['limitCommunes']) > 0) {
+            $strQuery = "";
+            foreach ($options['limitCommunes'] as $commune){
+                $strQuery .= '(distanceCommune:*_'.$commune->id.$options['distanceRecherche'].'_*)';
+            }
+            $queryParserStr = new QueryParser();
+            $queryParserStr->setDefaultOperator(QueryParser::B_OR);
+            $queryStr = $queryParserStr->parse($strQuery);
+            //print $strQuery . "\n";
             $query->addSubquery($queryStr, true);
         }
         //print $query->__toString();
+        if($options['isCertifier']){
+            $strQuery = "(isCertifier:true)";
+            $queryParserStr = new QueryParser();
+            $queryParserStr->setDefaultOperator(QueryParser::B_OR);
+            $queryStr = $queryParserStr->parse($strQuery);
+            //print $strQuery . "\n";
+            $query->addSubquery($queryStr, true);
+        }
         return $query;
     }
 

@@ -27,7 +27,7 @@ class Assets extends AssetBundle
     ];
 
     public $js = [
-        'js/humhub.cetcalModule.js'
+        'js/humhub.cetcalModule.js',
     ];
 
 }

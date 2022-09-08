@@ -19,6 +19,7 @@ use humhub\modules\search\engine\Search;
 use humhub\modules\cet_entite\models\CetEntite;
 use humhub\modules\cet_produit\models\CetProduit;
 use humhub\modules\cet_type\models\CetType;
+use humhub\modules\cet_commune\models\CetCommune;
 
 /**
  * Search Controller provides search functions inside the application.
@@ -43,11 +44,15 @@ class SearchController extends Controller
      * Display map for the search
      *
      */
-    public $displayMap ;
+    public $displayMap;
     /**
      * @inheritdoc
      */
-    public $showResults = false ;
+    public $showResults = false;
+
+    public $distanceRecherche = 10;
+
+    public $isCertifier = false;
 
     public function init()
     {
@@ -84,20 +89,25 @@ class SearchController extends Controller
         if (!empty($model->limitTypesIds)) {
             foreach ($model->limitTypesIds as $id) {
                 $type = CetType::findOne(['id' => trim($id)]);
-                if ($type !== null){
+                if ($type !== null) {
                     $limitTypes[] = $type;
                 }
             }
             $this->showResults = true;
         }
         $limitCommunes = [];
-        if(!empty($model->limitCommunesIds)) {
+        $this->distanceRecherche = $model->distanceRecherche;
+        if (!empty($model->limitCommunesIds)) {
             foreach ($model->limitCommunesIds as $id) {
-                $commune = CetType::findOne(['id' => trim($id)]);
-                if ($commune !== null){
+                $commune = CetCommune::findOne(['id' => trim($id)]);
+                if ($commune !== null) {
                     $limitCommunes[] = $commune;
                 }
             }
+            $this->showResults = true;
+        }
+        if(!empty($model->isCertifier)){
+            $this->isCertifier = $model->isCertifier;
             $this->showResults = true;
         }
 
@@ -106,7 +116,10 @@ class SearchController extends Controller
             'sort' => (empty($model->keyword)) ? 'title' : null,
             'pageSize' => Yii::$app->settings->get('paginationSize'),
             'limitSpaces' => $limitSpaces,
-            'limitTypes' => $limitTypes
+            'limitTypes' => $limitTypes,
+            'limitCommunes' => $limitCommunes,
+            'distanceRecherche' => $this->distanceRecherche,
+            'isCertifier' => $this->isCertifier
         ];
         $displayMap = false;
         if ($model->scope == SearchForm::SCOPE_CONTENT) {
@@ -120,8 +133,7 @@ class SearchController extends Controller
             $displayMap = true;
         } elseif ($model->scope == SearchForm::SCOPE_CET_PRODUIT) {
             $options['model'] = CetProduit::class;
-        }
-        else {
+        } else {
             $model->scope = SearchForm::SCOPE_ALL;
         }
 
@@ -135,16 +147,17 @@ class SearchController extends Controller
         $pagination->pageSize = $searchResultSet->pageSize;
 
         return $this->render('index', [
-                    'model' => $model,
-                    'results' => $searchResultSet->getResultInstances(),
-                    'pagination' => $pagination,
-                    'totals' => $model->getTotals($model->keyword, $options),
-                    'limitSpaces' => $limitSpaces,
-                    'limitTypes' => $limitTypes,
-                    'limitCommunes' => $limitCommunes,
-                    'displayMap' => $displayMap,
-                    'showResults' => $this->showResults
+            'model' => $model,
+            'results' => $searchResultSet->getResultInstances(),
+            'pagination' => $pagination,
+            'totals' => $model->getTotals($model->keyword, $options),
+            'limitSpaces' => $limitSpaces,
+            'limitTypes' => $limitTypes,
+            'limitCommunes' => $limitCommunes,
+            'distanceRecherche' => $this->distanceRecherche,
+            'displayMap' => $displayMap,
+            'showResults' => $this->showResults,
+            'isCertifier' => $this->isCertifier,
         ]);
     }
-
 }

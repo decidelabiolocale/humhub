@@ -32,6 +32,10 @@ class SearchForm extends Model
 
     public $limitCommunesIds = [];
 
+    public $distanceRecherche = 10;
+
+    public $isCertifier = false;
+
     public function init()
     {
         if (Yii::$app->request->get('page')) {
@@ -45,7 +49,7 @@ class SearchForm extends Model
     public function rules()
     {
         return [
-            [['keyword', 'scope', 'page', 'limitSpaceGuids', 'limitTypesIds', 'limitCommunesIds'], 'safe']
+            [['keyword', 'scope', 'page', 'limitSpaceGuids', 'limitTypesIds', 'limitCommunesIds', 'distanceRecherche', 'isCertifier'], 'safe']
         ];
     }
 
