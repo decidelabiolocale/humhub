@@ -8,6 +8,7 @@
 
 namespace humhub\modules\search\engine;
 
+use humhub\modules\calendar\models\CalendarEntry;
 use Yii;
 use yii\base\Component;
 use humhub\modules\search\interfaces\Searchable;
@@ -37,6 +38,7 @@ abstract class Search extends Component
     const DOCUMENT_TYPE_CET_ENTITE = 'cet_entite';
     const DOCUMENT_TYPE_CET_PRODUIT = 'cet_produit';
     const DOCUMENT_TYPE_SPACE = 'space';
+    const DOCUMENT_TYPE_EVENT = 'event';
     const DOCUMENT_TYPE_CONTENT = 'content';
     const DOCUMENT_TYPE_OTHER = 'other';
     const DOCUMENT_VISIBILITY_PUBLIC = 'public';
@@ -187,7 +189,9 @@ abstract class Search extends Component
             return self::DOCUMENT_TYPE_SPACE;
         } elseif ($obj instanceof User) {
             return self::DOCUMENT_TYPE_USER;
-        } elseif ($obj instanceof ContentActiveRecord) {
+        }elseif($obj instanceof CalendarEntry){
+            return self::DOCUMENT_TYPE_EVENT;
+        }elseif ($obj instanceof ContentActiveRecord) {
             return self::DOCUMENT_TYPE_CONTENT;
         } elseif ($obj instanceof CetEntite) {
             return self::DOCUMENT_TYPE_CET_ENTITE;

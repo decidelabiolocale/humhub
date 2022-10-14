@@ -37,10 +37,10 @@ humhub\modules\stream\assets\StreamAsset::register($this);
             $('#search-settings-link i').addClass('fa-caret-down');
 
             if ($('span[title = "Préciser vos communes"]').children('ul').children('li.select2-selection__choice').length > 0) {
-            $('.field-searchform-distancerecherche').css('display', 'block');
-        } else {
-            $('.field-searchform-distancerecherche').css('display', 'none');
-        }
+                $('.field-searchform-distancerecherche').css('display', 'block');
+            } else {
+                $('.field-searchform-distancerecherche').css('display', 'none');
+            }
         });
 
         $('#collapse-search-settings').on('shown.bs.collapse', function() {
@@ -200,6 +200,13 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                                 </div>
                             </div>
                         </a>
+                        <a data-pjax-prevent href='<?= Url::to(['/search/search/index', 'SearchForm[keyword]' => $model->keyword, 'SearchForm[limitSpaceGuids]' => $model->limitSpaceGuids, 'SearchForm[scope]' => SearchForm::SCOPE_EVENT, 'SearchForm[limitTypesIds]' => $model->limitTypesIds, 'SearchForm[limitCommunesIds]' => $model->limitCommunesIds, 'SearchForm[distanceRecherche]' => $model->distanceRecherche, 'SearchForm[isCertifier]' => $model->isCertifier]); ?>' class="list-group-item<?= ($model->scope === SearchForm::SCOPE_EVENT) ? ' active' : '' ?>">
+                            <div>
+                                <div class="edit_group ">Evénements
+                                    (<?= $totals[SearchForm::SCOPE_EVENT] ?>)
+                                </div>
+                            </div>
+                        </a>
                     </div>
                     <div class="panel-heading">
                         Résultat sur la map
@@ -228,6 +235,40 @@ humhub\modules\stream\assets\StreamAsset::register($this);
                     </div>
                     <div class="searchResults col-md-4">
                         <?php if (count($results) > 0) : ?>
+                            <?php foreach ($results as $result) : ?>
+                                <?php try {  ?>
+                                    <?php if ($result instanceof ContentActiveRecord) : ?>
+                                        <?= StreamEntryWidget::renderStreamEntry(
+                                            $result,
+                                            (new WallStreamEntryOptions())->viewContext(WallStreamEntryOptions::VIEW_CONTEXT_SEARCH)
+                                        ) ?>
+                                    <?php elseif ($result instanceof ContentContainerActiveRecord) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php elseif ($result instanceof Searchable) : ?>
+                                        <?= $result->getWallOut() ?>
+                                    <?php else : ?>
+                                        No Output for Class <?= get_class($result); ?>
+                                    <?php endif; ?>
+                                <?php } catch (\Throwable $e) {
+                                    Yii::error($e);
+                                } ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><strong><?= Yii::t('SearchModule.base', 'Your search returned no matches.') ?></strong></p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php elseif ($displayEvent) : ?>
+                    <div class="searchResults">
+                        <?php if (count($results) > 0) : ?>
+                            <?php usort($results, function ($a1, $a2) {
+                                $v1 = strtotime($a1['start_datetime']);
+                                $v2 = strtotime($a2['start_datetime']);
+                                return $v1 - $v2; // $v2 - $v1 to reverse direction
+                            });  ?>
                             <?php foreach ($results as $result) : ?>
                                 <?php try {  ?>
                                     <?php if ($result instanceof ContentActiveRecord) : ?>

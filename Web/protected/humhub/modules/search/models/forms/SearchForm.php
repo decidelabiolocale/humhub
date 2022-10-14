@@ -7,6 +7,7 @@ use humhub\modules\space\models\Space;
 use humhub\modules\search\engine\Search;
 use humhub\modules\cet_entite\models\CetEntite;
 use humhub\modules\cet_produit\models\CetProduit;
+use humhub\modules\calendar\models\CalendarEntry;
 use yii\base\Model;
 use Yii;
 
@@ -24,6 +25,8 @@ class SearchForm extends Model
     const SCOPE_CONTENT = 'content';
     const SCOPE_CET_PRODUIT = 'cet_produit';
     const SCOPE_CET_ENTITE = 'cet_entite';
+
+    const SCOPE_EVENT = 'event';
     public $keyword = '';
     public $scope = '';
     public $page = 1;
@@ -64,6 +67,9 @@ class SearchForm extends Model
         $totals[self::SCOPE_USER] = $searchResultSetCount->total;
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => Space::class]));
         $totals[self::SCOPE_SPACE] = $searchResultSetCount->total;
+        // Recherche d'event
+        $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CalendarEntry::class]));
+        $totals[self::SCOPE_EVENT] = $searchResultSetCount->total;
 
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['type' => Search::DOCUMENT_TYPE_CONTENT]));
         $totals[self::SCOPE_CONTENT] = $searchResultSetCount->total;
@@ -74,7 +80,7 @@ class SearchForm extends Model
         $searchResultSetCount = Yii::$app->search->find($keyword, array_merge($options, ['model' => CetEntite::class]));
         $totals[self::SCOPE_CET_ENTITE] = $searchResultSetCount->total;
 
-        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_CET_PRODUIT] + $totals[self::SCOPE_CET_ENTITE];
+        $totals[self::SCOPE_ALL] = $totals[self::SCOPE_CONTENT] + $totals[self::SCOPE_SPACE] + $totals[self::SCOPE_USER] + $totals[self::SCOPE_CET_PRODUIT] + $totals[self::SCOPE_CET_ENTITE] + $totals[self::SCOPE_EVENT];
 
         return $totals;
     }

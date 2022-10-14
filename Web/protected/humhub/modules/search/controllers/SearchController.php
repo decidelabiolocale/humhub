@@ -45,6 +45,7 @@ class SearchController extends Controller
      *
      */
     public $displayMap;
+    public $displayEvent;
     /**
      * @inheritdoc
      */
@@ -106,7 +107,7 @@ class SearchController extends Controller
             }
             $this->showResults = true;
         }
-        if(!empty($model->isCertifier)){
+        if (!empty($model->isCertifier)) {
             $this->isCertifier = $model->isCertifier;
             $this->showResults = true;
         }
@@ -122,7 +123,11 @@ class SearchController extends Controller
             'isCertifier' => $this->isCertifier
         ];
         $displayMap = false;
-        if ($model->scope == SearchForm::SCOPE_CONTENT) {
+        $displayEvent = false;
+        if ($model->scope == SearchForm::SCOPE_EVENT) {
+            $options['type'] = Search::DOCUMENT_TYPE_EVENT;
+            $displayEvent = true;
+        } elseif ($model->scope == SearchForm::SCOPE_CONTENT) {
             $options['type'] = Search::DOCUMENT_TYPE_CONTENT;
         } elseif ($model->scope == SearchForm::SCOPE_SPACE) {
             $options['model'] = Space::class;
@@ -156,6 +161,7 @@ class SearchController extends Controller
             'limitCommunes' => $limitCommunes,
             'distanceRecherche' => $this->distanceRecherche,
             'displayMap' => $displayMap,
+            'displayEvent' => $displayEvent,
             'showResults' => $this->showResults,
             'isCertifier' => $this->isCertifier,
         ]);
