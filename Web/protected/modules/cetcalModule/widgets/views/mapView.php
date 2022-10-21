@@ -17,7 +17,8 @@ MapAssetBundle::register($this);
 
 ?>
 <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
-<script src="assets/js/leaflet.zoomfs.js"></script>
+<script src='assets/leaflet.fullscreen-master/Control.Fullscreen.js'></script>
+<script src='assets/leaflet.fullscreen-master/Control.Fullscreen.css'></script>
 <?php if ($showAsPanel) { ?>
 
     <div class="panel" id="adresseCetmap-map-view-snippet">
@@ -36,10 +37,16 @@ MapAssetBundle::register($this);
 
         <script <?= Html::nonce() ?>>
             $(document).ready(function() {
-                var L = window.L;
-                var map = L.map('adresseCet-main-map').setView([<?= $mapCenter['latitude'] ?>, <?= $mapCenter['longitude'] ?>], <?= $mapCenter['zoom'] ?>);
-
-                map.addControl(zoomFS);
+                accessToken = "<?= $apikey ?>";
+                console.log(accessToken);
+                var map = L.map('adresseCet-main-map', {
+                    fullscreenControl: true,
+                    fullscreenControlOptions: { // optional
+                        title: "Show me the fullscreen !",
+                        titleCancel: "Exit fullscreen mode"
+                    }
+                }).setView([<?= $mapCenter['latitude'] ?>, <?= $mapCenter['longitude'] ?>], <?= $mapCenter['zoom'] ?>);
+                console.log("Control :" + L.Control);
                 var markers = L.markerClusterGroup();
                 const icons_array = []; {
                     var cetIconAlgues = L.icon({
