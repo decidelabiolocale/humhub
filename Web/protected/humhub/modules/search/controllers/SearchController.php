@@ -55,6 +55,10 @@ class SearchController extends Controller
 
     public $isCertifier = false;
 
+    public $startDatetime = '';
+
+    public $endDatetime = '';
+
     public function init()
     {
         $this->appendPageTitle(\Yii::t('SearchModule.base', 'Search'));
@@ -112,6 +116,16 @@ class SearchController extends Controller
             $this->showResults = true;
         }
 
+        if(!empty($model->startDatetime)) {
+            $this->startDatetime = $model->startDatetime;
+            $this->showResults = true;
+        }
+
+        if(!empty($model->endDatetime)) {
+            $this->endDatetime = $model->endDatetime;
+            $this->showResults = true;
+        }
+
         $options = [
             'page' => $model->page,
             'sort' => (empty($model->keyword)) ? 'title' : null,
@@ -120,7 +134,7 @@ class SearchController extends Controller
             'limitTypes' => $limitTypes,
             'limitCommunes' => $limitCommunes,
             'distanceRecherche' => $this->distanceRecherche,
-            'isCertifier' => $this->isCertifier
+            'isCertifier' => $this->isCertifier,
         ];
         $displayMap = false;
         $displayEvent = false;
@@ -164,6 +178,8 @@ class SearchController extends Controller
             'displayEvent' => $displayEvent,
             'showResults' => $this->showResults,
             'isCertifier' => $this->isCertifier,
+            'startDatetime' => $this->startDatetime,
+            'endDatetime' => $this->endDatetime,
         ]);
     }
 }

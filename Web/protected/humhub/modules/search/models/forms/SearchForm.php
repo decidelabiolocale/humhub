@@ -38,6 +38,9 @@ class SearchForm extends Model
     public $distanceRecherche = 10;
 
     public $isCertifier = false;
+    public $startDatetime = '';
+
+    public $endDatetime = '';
 
     public function init()
     {
@@ -52,7 +55,7 @@ class SearchForm extends Model
     public function rules()
     {
         return [
-            [['keyword', 'scope', 'page', 'limitSpaceGuids', 'limitTypesIds', 'limitCommunesIds', 'distanceRecherche', 'isCertifier'], 'safe']
+            [['keyword', 'scope', 'page', 'limitSpaceGuids', 'limitTypesIds', 'limitCommunesIds', 'distanceRecherche', 'isCertifier', 'startDatetime', 'endDatetime'], 'safe']
         ];
     }
 
